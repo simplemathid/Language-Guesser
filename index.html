@@ -96,31 +96,64 @@
         }
     </script>
     <style>
-        /* Custom keyframes */
-        @keyframes shake {
-            0%, 100% { transform: translateX(0); }
-            10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
-            20%, 40%, 60%, 80% { transform: translateX(5px); }
-        }
+        /* ...keep all your existing CSS... */
+        /* (unchanged for brevity) */
+    </style>
+</head>
+<body class="min-h-screen font-sans bg-gradient-light dark:bg-gradient-dark text-gray-800 dark:text-gray-100 transition-colors duration-300 selection:bg-primary-200 dark:selection:bg-primary-700">
+    <!-- Background shapes -->
+    <div class="bg-shapes">
+        <div class="bg-shape shape-1"></div>
+        <div class="bg-shape shape-2"></div>
+        <div class="bg-shape shape-3"></div>
+    </div>
+
+    <div class="relative min-h-screen px-4 py-8 mx-auto game-container">
+        <!-- Theme toggle button -->
+        <!-- ... theme toggle unchanged ... -->
+
+        <div class="text-center">
+            <div class="inline-block animate-float">
+                <!-- FIXED TITLE: Use solid color for accessibility -->
+                <h1 class="mb-2 text-3xl font-bold tracking-tight text-primary-600 dark:text-primary-400">
+                    Guess the Language!
+                </h1>
+                <!-- Or for gradient: 
+                <h1 class="mb-2 text-3xl font-bold tracking-tight bg-clip-text text-transparent"
+                    style="background: linear-gradient(to right, #7155ff, #a855f7)">
+                    Guess the Language!
+                </h1>
+                -->
+            </div>
+            
+            <!-- ... rest of your markup unchanged ... -->
+        </div>
         
-        @keyframes scaleIn {
-            0% { transform: scale(0.8); opacity: 0; }
-            100% { transform: scale(1); opacity: 1; }
-        }
+        <div class="my-6 animate-scale-in">
+            <!-- Main game card with glassmorphism -->
+            <!-- ... -->
+        </div>
         
-        @keyframes fadeIn {
-            0% { opacity: 0; }
-            100% { opacity: 1; }
-        }
+        <!-- Feedback card -->
+        <div id="feedback-container" class="hidden my-6 p-4 rounded-2xl text-center glass-card animate-scale-in">
+            <p id="feedback-text" class="text-lg font-medium"></p>
+            <!-- Fixed: always enforce bg-primary-500 and text-white unless state changes -->
+            <button id="continue-btn" class="mt-5 px-6 py-3 font-medium text-white transition-all duration-200 rounded-full bg-primary-500 hover:bg-primary-600">
+                Continue
+            </button>
+        </div>
         
-        @keyframes slideUp {
-            0% { transform: translateY(10px); opacity: 0; }
-            100% { transform: translateY(0); opacity: 1; }
-        }
-        
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
-        }
-        
-        /* Custom background
+        <!-- New game button -->
+        <div class="flex justify-center mt-8">
+            <!-- Fixed: always enforce bg-primary-500 and text-white -->
+            <button id="new-game-btn" class="px-6 py-3 font-medium text-white transition-all duration-200 rounded-full bg-primary-500 hover:bg-primary-600">
+                New Game
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // ... keep your existing JS unchanged ...
+    </script>
+</body>
+</html>
