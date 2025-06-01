@@ -96,11 +96,36 @@
         }
     </script>
     <style>
-        /* ...keep all your existing CSS... */
+        /* ...existing styles... */
         /* (unchanged for brevity) */
+
+        /* Sticky action bar for main buttons */
+        .action-bar {
+            position: fixed;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            background: rgba(255,255,255,0.96);
+            backdrop-filter: blur(8px);
+            z-index: 20;
+            box-shadow: 0 -2px 16px rgba(0,0,0,0.06);
+            display: flex;
+            justify-content: center;
+            padding: 12px 0;
+            gap: 24px;
+            transition: background 0.2s;
+        }
+        .dark .action-bar {
+            background: rgba(15,23,42,0.92);
+        }
+        @media (max-width: 600px) {
+            .game-container { padding-bottom: 90px !important; }
+            .action-bar { padding: 8px 0; gap: 10px; }
+        }
     </style>
 </head>
 <body class="min-h-screen font-sans bg-gradient-light dark:bg-gradient-dark text-gray-800 dark:text-gray-100 transition-colors duration-300 selection:bg-primary-200 dark:selection:bg-primary-700">
+
     <!-- Background shapes -->
     <div class="bg-shapes">
         <div class="bg-shape shape-1"></div>
@@ -108,24 +133,16 @@
         <div class="bg-shape shape-3"></div>
     </div>
 
-    <div class="relative min-h-screen px-4 py-8 mx-auto game-container">
+    <div class="relative min-h-screen px-4 py-8 mx-auto game-container" style="padding-bottom:110px;">
         <!-- Theme toggle button -->
         <!-- ... theme toggle unchanged ... -->
 
         <div class="text-center">
             <div class="inline-block animate-float">
-                <!-- FIXED TITLE: Use solid color for accessibility -->
                 <h1 class="mb-2 text-3xl font-bold tracking-tight text-primary-600 dark:text-primary-400">
                     Guess the Language!
                 </h1>
-                <!-- Or for gradient: 
-                <h1 class="mb-2 text-3xl font-bold tracking-tight bg-clip-text text-transparent"
-                    style="background: linear-gradient(to right, #7155ff, #a855f7)">
-                    Guess the Language!
-                </h1>
-                -->
             </div>
-            
             <!-- ... rest of your markup unchanged ... -->
         </div>
         
@@ -137,23 +154,63 @@
         <!-- Feedback card -->
         <div id="feedback-container" class="hidden my-6 p-4 rounded-2xl text-center glass-card animate-scale-in">
             <p id="feedback-text" class="text-lg font-medium"></p>
-            <!-- Fixed: always enforce bg-primary-500 and text-white unless state changes -->
-            <button id="continue-btn" class="mt-5 px-6 py-3 font-medium text-white transition-all duration-200 rounded-full bg-primary-500 hover:bg-primary-600">
-                Continue
-            </button>
         </div>
-        
-        <!-- New game button -->
-        <div class="flex justify-center mt-8">
-            <!-- Fixed: always enforce bg-primary-500 and text-white -->
-            <button id="new-game-btn" class="px-6 py-3 font-medium text-white transition-all duration-200 rounded-full bg-primary-500 hover:bg-primary-600">
-                New Game
-            </button>
-        </div>
+        <!-- Removed the old "New Game" button from inside .game-container -->
+    </div>
+
+    <!-- Sticky Action Bar for Continue/New Game buttons -->
+    <div class="action-bar">
+        <button id="continue-btn" class="hidden px-6 py-3 font-medium text-white rounded-full bg-primary-500 hover:bg-primary-600 transition-all duration-200">
+            Continue
+        </button>
+        <button id="new-game-btn" class="px-6 py-3 font-medium text-white rounded-full bg-primary-500 hover:bg-primary-600 transition-all duration-200">
+            New Game
+        </button>
     </div>
 
     <script>
-        // ... keep your existing JS unchanged ...
+        // ...keep your existing JS and add the following at the end...
+
+        // Sticky bar button logic
+        function showContinueButton(show=true) {
+            document.getElementById('continue-btn').classList.toggle('hidden', !show);
+        }
+        function showNewGameButton(show=true) {
+            document.getElementById('new-game-btn').classList.toggle('hidden', !show);
+        }
+
+        // Example integration (additions/replacements for your current game logic)
+        // Call these functions at appropriate points in your game:
+        // - After answering, showContinueButton(true), showNewGameButton(false)
+        // - On new game or next, showContinueButton(false), showNewGameButton(true)
+
+        // Example (insert into your checkAnswer/feedback logic):
+        function checkAnswer(selectedLanguage) {
+            // ...your existing logic...
+            showContinueButton(true);
+            showNewGameButton(false);
+            // ...rest of your logic...
+        }
+        function continueGame() {
+            showContinueButton(false);
+            showNewGameButton(true);
+            // ...your logic for next question...
+        }
+        function startNewGame() {
+            showContinueButton(false);
+            showNewGameButton(true);
+            // ...your logic for new game...
+        }
+
+        // Button events (replace old ones if needed)
+        document.getElementById('continue-btn').onclick = continueGame;
+        document.getElementById('new-game-btn').onclick = startNewGame;
+
+        // On load, show only New Game
+        showContinueButton(false);
+        showNewGameButton(true);
+
+        // ...rest of your JS unchanged...
     </script>
 </body>
 </html>
