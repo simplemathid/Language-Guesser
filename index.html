@@ -2,14 +2,248 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Guess the Language!</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guess the Language!</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
-    <link rel="stylesheet" href="styles.css">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            50: '#f0f0ff',
+                            100: '#e4e3ff',
+                            200: '#cdccff',
+                            300: '#aba8ff',
+                            400: '#8a7cff',
+                            500: '#7155ff',
+                            600: '#5d5cde',
+                            700: '#4e43bb',
+                            800: '#3f3a96',
+                            900: '#343376',
+                        },
+                        correct: {
+                            50: '#ecfdf5',
+                            100: '#d1fae5',
+                            200: '#a7f3d0',
+                            300: '#6ee7b7',
+                            400: '#34d399',
+                            500: '#10b981',
+                            600: '#059669',
+                        },
+                        incorrect: {
+                            50: '#fef2f2',
+                            100: '#fee2e2',
+                            200: '#fecaca',
+                            300: '#fca5a5',
+                            400: '#f87171',
+                            500: '#ef4444',
+                            600: '#dc2626',
+                        },
+                        dark: {
+                            50: '#f8fafc',
+                            800: '#1e293b',
+                            850: '#172033',
+                            900: '#0f172a',
+                            950: '#080c18',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+                    },
+                    animation: {
+                        'bounce-once': 'bounce 0.5s ease-in-out 1',
+                        'shake': 'shake 0.5s ease-in-out',
+                        'scale-in': 'scaleIn 0.3s ease-out forwards',
+                        'fade-in': 'fadeIn 0.3s ease-out forwards',
+                        'slide-up': 'slideUp 0.3s ease-out forwards',
+                        'pulse-slow': 'pulse 2.5s infinite',
+                        'float': 'float 6s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        shake: {
+                            '0%, 100%': { transform: 'translateX(0)' },
+                            '10%, 30%, 50%, 70%, 90%': { transform: 'translateX(-5px)' },
+                            '20%, 40%, 60%, 80%': { transform: 'translateX(5px)' },
+                        },
+                        scaleIn: {
+                            '0%': { transform: 'scale(0.8)', opacity: '0' },
+                            '100%': { transform: 'scale(1)', opacity: '1' },
+                        },
+                        fadeIn: {
+                            '0%': { opacity: '0' },
+                            '100%': { opacity: '1' },
+                        },
+                        slideUp: {
+                            '0%': { transform: 'translateY(10px)', opacity: '0' },
+                            '100%': { transform: 'translateY(0)', opacity: '1' },
+                        },
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-10px)' },
+                        }
+                    },
+                    backdropBlur: {
+                        xs: '2px',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Custom keyframes */
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+            20%, 40%, 60%, 80% { transform: translateX(5px); }
+        }
+        
+        @keyframes scaleIn {
+            0% { transform: scale(0.8); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        
+        @keyframes fadeIn {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+        
+        @keyframes slideUp {
+            0% { transform: translateY(10px); opacity: 0; }
+            100% { transform: translateY(0); opacity: 1; }
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        /* Custom background gradients */
+        .bg-gradient-light {
+            background: linear-gradient(135deg, #f9fafb 0%, #f3f4f6 100%);
+        }
+        
+        .bg-gradient-dark {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+        }
+        
+        /* Glassmorphism effect */
+        .glass {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .glass-dark {
+            background: rgba(15, 23, 42, 0.75);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        .glass-card {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05);
+        }
+        
+        .dark .glass-card {
+            background: rgba(30, 41, 59, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+        }
+        
+        /* Button hover effects */
+        .option-button {
+            transition: all 0.2s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .option-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        
+        .option-button:active {
+            transform: translateY(0);
+        }
+        
+        /* Cool background with floating shapes */
+        .bg-shapes {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: -1;
+        }
+        
+        .bg-shape {
+            position: absolute;
+            border-radius: 50%;
+            opacity: 0.5;
+        }
+        
+        .shape-1 {
+            top: 20%;
+            left: 10%;
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(113,85,255,0.2) 0%, rgba(113,85,255,0) 70%);
+            animation: float 8s ease-in-out infinite;
+        }
+        
+        .shape-2 {
+            bottom: 10%;
+            right: 15%;
+            width: 250px;
+            height: 250px;
+            background: radial-gradient(circle, rgba(16,185,129,0.2) 0%, rgba(16,185,129,0) 70%);
+            animation: float 6s ease-in-out infinite reverse;
+        }
+        
+        .shape-3 {
+            top: 50%;
+            right: 5%;
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle, rgba(239,68,68,0.2) 0%, rgba(239,68,68,0) 70%);
+            animation: float 10s ease-in-out infinite;
+        }
+        
+        .dark .shape-1 {
+            background: radial-gradient(circle, rgba(113,85,255,0.15) 0%, rgba(113,85,255,0) 70%);
+        }
+        
+        .dark .shape-2 {
+            background: radial-gradient(circle, rgba(16,185,129,0.15) 0%, rgba(16,185,129,0) 70%);
+        }
+        
+        .dark .shape-3 {
+            background: radial-gradient(circle, rgba(239,68,68,0.15) 0%, rgba(239,68,68,0) 70%);
+        }
+        
+        /* No selection on buttons */
+        button {
+            user-select: none;
+        }
+        
+        /* Game container */
+        .game-container {
+            max-width: 550px;
+            margin: 0 auto;
+        }
+    </style>
 </head>
 <body class="min-h-screen font-sans bg-gradient-light dark:bg-gradient-dark text-gray-800 dark:text-gray-100 transition-colors duration-300 selection:bg-primary-200 dark:selection:bg-primary-700">
     <!-- Background shapes -->
@@ -79,7 +313,7 @@
                     <p id="language-sample" class="p-4 my-4 text-xl italic font-medium bg-gray-50 dark:bg-dark-850 rounded-xl animate-fade-in"></p>
                     <button id="play-audio" class="flex items-center justify-center px-5 py-3 font-medium transition-all duration-200 rounded-full hover:shadow-md active:scale-95 bg-primary-500 hover:bg-primary-600 text-white">
                         <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
-                            <path fill-rule="evenodd" d="M9.383 3.076A1 1 0 0110 4v12a1 1 0 01-1.707.707L4.586 13H2a1 1 0 01-1-1V8a1 1 0 011-1h2.586l3.707-3.707a1 1 0 011.09-.217zM14.657 2.929a1 1 0 011.414 0A9.972 9.972 0 0119 10a9.972 9.972 0 01-2.929 7.071a1 1 0 01-1.414-1.414A7.971 7.971 0 0017 10c0-2.21-.894-4.208-2.343-5.657a1 1 0 010-1.414zm-2.829 2.828a1 1 0 011.415 0A5.983 5.983 0 0115 10a5.984 5.984 0 01-1.757 4.243a1 1 0 01-1.415-1.415A3.984 3.984 0 0013 10a3.983 3.983 0 00-1.172-2.828a1 1 0 010-1.415z" clip-rule="evenodd" />
+                            <path fill-rule="evenodd" d="M9.383 3.076A1 1 0 0110 4v12a1 1 0 01-1.707.707L4.586 13H2a1 1 0 01-1-1V8a1 1 0 011-1h2.586l3.707-3.707a1 1 0 011.09-.217zM14.657 2.929a1 1 0 011.414 0A9.972 9.972 0 0119 10a9.972 9.972 0 01-2.929 7.071 1 1 0 01-1.414-1.414A7.971 7.971 0 0017 10c0-2.21-.894-4.208-2.343-5.657a1 1 0 010-1.414zm-2.829 2.828a1 1 0 011.415 0A5.983 5.983 0 0115 10a5.984 5.984 0 01-1.757 4.243a1 1 0 01-1.415-1.415A3.984 3.984 0 0013 10a3.983 3.983 0 00-1.172-2.828a1 1 0 010-1.415z" clip-rule="evenodd" />
                         </svg>
                         Play Audio
                     </button>
@@ -110,6 +344,536 @@
         </div>
     </div>
 
-    <script src="main.js"></script>
+    <script>
+        // Check for dark mode preference (without localStorage)
+        function updateTheme() {
+            if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                document.documentElement.classList.add('dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+            }
+        }
+        
+        // Initial theme check
+        updateTheme();
+        
+        // Theme toggle button (without localStorage)
+        document.getElementById('theme-toggle').addEventListener('click', () => {
+            if (document.documentElement.classList.contains('dark')) {
+                document.documentElement.classList.remove('dark');
+            } else {
+                document.documentElement.classList.add('dark');
+            }
+        });
+        
+        // Listen for system theme changes
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', event => {
+            if (event.matches) {
+                document.documentElement.classList.add('dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+            }
+        });
+        
+        // Language database with text samples and language codes for Google Translate TTS
+        const languageDatabase = [
+            { language: 'Spanish', langCode: 'es', sample: 'Buenos días, ¿cómo estás hoy? Espero que tengas un día maravilloso.' },
+            { language: 'French', langCode: 'fr', sample: 'Bonjour, comment allez-vous aujourd\'hui? J\'espère que vous passez une belle journée.' },
+            { language: 'German', langCode: 'de', sample: 'Guten Tag, wie geht es Ihnen heute? Ich hoffe, Sie haben einen wunderbaren Tag.' },
+            { language: 'Italian', langCode: 'it', sample: 'Buongiorno, come stai oggi? Spero che tu abbia una giornata meravigliosa.' },
+            { language: 'Portuguese', langCode: 'pt', sample: 'Bom dia, como está hoje? Espero que tenha um dia maravilhoso.' },
+            { language: 'Dutch', langCode: 'nl', sample: 'Goedendag, hoe gaat het vandaag met je? Ik hoop dat je een geweldige dag hebt.' },
+            { language: 'Swedish', langCode: 'sv', sample: 'God dag, hur mår du idag? Jag hoppas att du får en underbar dag.' },
+            { language: 'Norwegian', langCode: 'no', sample: 'God dag, hvordan har du det i dag? Jeg håper du får en fantastisk dag.' },
+            { language: 'Danish', langCode: 'da', sample: 'Goddag, hvordan har du det i dag? Jeg håber, du får en vidunderlig dag.' },
+            { language: 'Finnish', langCode: 'fi', sample: 'Hyvää päivää, miten voit tänään? Toivon, että sinulla on ihana päivä.' },
+            { language: 'Greek', langCode: 'el', sample: 'Καλημέρα, πώς είσαι σήμερα; Ελπίζω να έχεις μια υπέροχη μέρα.' },
+            { language: 'Russian', langCode: 'ru', sample: 'Добрый день, как вы себя чувствуете сегодня? Надеюсь, у вас замечательный день.' },
+            { language: 'Polish', langCode: 'pl', sample: 'Dzień dobry, jak się masz dzisiaj? Mam nadzieję, że masz wspaniały dzień.' },
+            { language: 'Czech', langCode: 'cs', sample: 'Dobrý den, jak se dnes máte? Doufám, že máte nádherný den.' },
+            { language: 'Hungarian', langCode: 'hu', sample: 'Jó napot, hogy vagy ma? Remélem, csodálatos napod van.' },
+            { language: 'Romanian', langCode: 'ro', sample: 'Bună ziua, cum ești astăzi? Sper că ai o zi minunată.' },
+            { language: 'Turkish', langCode: 'tr', sample: 'Merhaba, bugün nasılsın? Harika bir gün geçirmeni dilerim.' },
+            { language: 'Arabic', langCode: 'ar', sample: 'مرحبا، كيف حالك اليوم؟ أتمنى أن يكون يومك رائعا.' },
+            { language: 'Hindi', langCode: 'hi', sample: 'नमस्ते, आज आप कैसे हैं? मुझे आशा है कि आपका दिन बहुत अच्छा हो।' },
+            { language: 'Japanese', langCode: 'ja', sample: 'こんにちは、今日の調子はどうですか？素晴らしい一日をお過ごしください。' },
+            { language: 'Korean', langCode: 'ko', sample: '안녕하세요, 오늘 어떻게 지내세요? 좋은 하루가 되길 바랍니다.' },
+            { language: 'Chinese', langCode: 'zh-CN', sample: '你好，今天好吗？希望你有美好的一天。' },
+            { language: 'Vietnamese', langCode: 'vi', sample: 'Xin chào, hôm nay bạn thế nào? Chúc bạn một ngày tuyệt vời.' },
+            { language: 'Thai', langCode: 'th', sample: 'สวัสดี คุณเป็นอย่างไรบ้างวันนี้? ขอให้คุณมีวันที่ยอดเยี่ยม.' },
+            { language: 'Indonesian', langCode: 'id', sample: 'Halo, apa kabar hari ini? Semoga Anda memiliki hari yang indah.' },
+            { language: 'Tagalog', langCode: 'tl', sample: 'Kumusta, kamusta ka ngayon? Sana ay magkaroon ka ng magandang araw.' },
+            { language: 'Swahili', langCode: 'sw', sample: 'Habari, hali yako ikoje leo? Natumaini una siku nzuri.' },
+            { language: 'Icelandic', langCode: 'is', sample: 'Góðan dag, hvernig hefur þú það í dag? Ég vona að þú eigir frábæran dag.' },
+            { language: 'Welsh', langCode: 'cy', sample: 'Helo, sut ydych chi heddiw? Gobeithio bod gennych ddiwrnod gwych.' },
+            { language: 'Irish', langCode: 'ga', sample: 'Dia dhuit, conas atá tú inniu? Tá súil agam go mbeidh lá iontach agat.' }
+        ];
+        
+        // Common phrases for each language - shorter to improve audio loading reliability
+        const commonPhrases = {
+            'es': 'Hola, buenos días',
+            'fr': 'Bonjour, comment ça va',
+            'de': 'Hallo, guten Tag',
+            'it': 'Ciao, buongiorno',
+            'pt': 'Olá, bom dia',
+            'nl': 'Hallo, goedendag',
+            'sv': 'Hej, god dag',
+            'no': 'Hei, god dag',
+            'da': 'Hej, goddag',
+            'fi': 'Hei, hyvää päivää',
+            'el': 'Γειά σου, καλημέρα',
+            'ru': 'Привет, добрый день',
+            'pl': 'Cześć, dzień dobry',
+            'cs': 'Ahoj, dobrý den',
+            'hu': 'Szia, jó napot',
+            'ro': 'Salut, bună ziua',
+            'tr': 'Merhaba, iyi günler',
+            'ar': 'مرحبا، صباح الخير',
+            'hi': 'नमस्ते, शुभ दिन',
+            'ja': 'こんにちは、おはようございます',
+            'ko': '안녕하세요, 좋은 아침입니다',
+            'zh-CN': '你好，早上好',
+            'vi': 'Xin chào, chào buổi sáng',
+            'th': 'สวัสดี, สวัสดีตอนเช้า',
+            'id': 'Halo, selamat pagi',
+            'tl': 'Kumusta, magandang umaga',
+            'sw': 'Jambo, habari za asubuhi',
+            'is': 'Halló, góðan daginn',
+            'cy': 'Helo, bore da',
+            'ga': 'Dia dhuit, maidin mhaith'
+        };
+        
+        // Game state
+        let currentStreak = 0;
+        let bestStreak = 0;
+        let currentQuestion = null;
+        let currentOptions = [];
+        let gameMode = 'text'; // 'text' or 'audio'
+        let audioAvailable = true; // Track if audio is working
+        
+        // DOM elements
+        const languageSample = document.getElementById('language-sample');
+        const optionsContainer = document.getElementById('options-container');
+        const feedbackContainer = document.getElementById('feedback-container');
+        const feedbackText = document.getElementById('feedback-text');
+        const currentStreakElement = document.getElementById('current-streak');
+        const bestStreakElement = document.getElementById('best-streak');
+        const continueBtn = document.getElementById('continue-btn');
+        const newGameBtn = document.getElementById('new-game-btn');
+        const audioNotice = document.getElementById('audio-notice');
+        const textModeBtn = document.getElementById('text-mode-btn');
+        const audioModeBtn = document.getElementById('audio-mode-btn');
+        
+        // Fisher-Yates shuffle algorithm
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+        
+        // Function to create safer audio URL using shorter phrases
+        function createTTSUrl(langCode) {
+            // Use common phrase if available, otherwise use a generic greeting
+            const phrase = commonPhrases[langCode] || 'Hello';
+            
+            // Encode the text for URL usage
+            const encodedText = encodeURIComponent(phrase);
+            
+            // Create URL for TTS with short phrase to improve reliability
+            return `https://translate.google.com/translate_tts?ie=UTF-8&q=${encodedText}&tl=${langCode}&client=tw-ob`;
+        }
+        
+        // Update mode toggle buttons
+        function updateModeToggle() {
+            // Reset both buttons
+            textModeBtn.setAttribute('aria-pressed', 'false');
+            audioModeBtn.setAttribute('aria-pressed', 'false');
+            textModeBtn.querySelector('span:last-child').classList.remove('opacity-100');
+            audioModeBtn.querySelector('span:last-child').classList.remove('opacity-100');
+            
+            // Set active state
+            if (gameMode === 'text') {
+                textModeBtn.setAttribute('aria-pressed', 'true');
+                textModeBtn.querySelector('span:last-child').classList.add('opacity-100');
+            } else {
+                audioModeBtn.setAttribute('aria-pressed', 'true');
+                audioModeBtn.querySelector('span:last-child').classList.add('opacity-100');
+            }
+        }
+        
+        // Trigger confetti effect for milestone streaks
+        function celebrateStreak(streak) {
+            if (streak % 5 === 0 && streak > 0) { // Celebrate every 5 streaks
+                confetti({
+                    particleCount: 100,
+                    spread: 70,
+                    origin: { y: 0.6 },
+                    colors: ['#7155FF', '#10B981', '#3B82F6']
+                });
+            }
+        }
+        
+        // Generate a new question
+        function generateQuestion() {
+            // Get a random language
+            const randomIndex = Math.floor(Math.random() * languageDatabase.length);
+            currentQuestion = languageDatabase[randomIndex];
+            
+            // Always display the text sample with animation
+            languageSample.textContent = currentQuestion.sample;
+            languageSample.classList.add('animate-fade-in');
+            setTimeout(() => languageSample.classList.remove('animate-fade-in'), 300);
+            
+            // Set up audio
+            const audioElement = document.getElementById('language-audio');
+            const playButton = document.getElementById('play-audio');
+            
+            // Clear any previous audio notices
+            audioNotice.textContent = '';
+            audioNotice.classList.add('hidden');
+            
+            // Set up audio only if previously available or first attempt
+            if (audioAvailable) {
+                // Create TTS URL for the current language with a simple phrase
+                const ttsUrl = createTTSUrl(currentQuestion.langCode);
+                audioElement.src = ttsUrl;
+                
+                // Make play button interactive
+                playButton.disabled = false;
+                playButton.classList.remove('opacity-50');
+                
+                // Setup button appearance
+                playButton.innerHTML = `
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M9.383 3.076A1 1 0 0110 4v12a1 1 0 01-1.707.707L4.586 13H2a1 1 0 01-1-1V8a1 1 0 011-1h2.586l3.707-3.707a1 1 0 011.09-.217zM14.657 2.929a1 1 0 011.414 0A9.972 9.972 0 0119 10a9.972 9.972 0 01-2.929 7.071a1 1 0 01-1.414-1.414A7.971 7.971 0 0017 10c0-2.21-.894-4.208-2.343-5.657a1 1 0 010-1.414zm-2.829 2.828a1 1 0 011.415 0A5.983 5.983 0 0115 10a5.984 5.984 0 01-1.757 4.243a1 1 0 01-1.415-1.415A3.984 3.984 0 0013 10a3.983 3.983 0 00-1.172-2.828a1 1 0 010-1.415z" clip-rule="evenodd" />
+                    </svg>
+                    Play Audio
+                `;
+            } else {
+                // If audio was previously unavailable, disable the button
+                playButton.disabled = true;
+                playButton.classList.add('opacity-50');
+                playButton.innerHTML = `
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
+                    </svg>
+                    Audio Unavailable
+                `;
+                
+                // Make sure text is always visible if audio is unavailable
+                languageSample.classList.remove('hidden');
+                
+                // If in audio mode, show notification
+                if (gameMode === 'audio') {
+                    audioNotice.textContent = 'Audio is unavailable. Using text mode instead.';
+                    audioNotice.classList.remove('hidden');
+                }
+            }
+            
+            // Set up display based on game mode
+            if (gameMode === 'text') {
+                // TEXT MODE: Show only text, hide audio button completely
+                languageSample.classList.remove('hidden');
+                playButton.classList.add('hidden');
+                
+                // Clear any audio notices since audio isn't available in text mode
+                audioNotice.classList.add('hidden');
+                
+            } else { // audio mode
+                // AUDIO MODE: Show only audio button, hide text completely
+                languageSample.classList.add('hidden');
+                playButton.classList.remove('hidden');
+                
+                // Style play button as primary
+                playButton.classList.remove('bg-gray-200', 'hover:bg-gray-300', 'text-gray-700', 'dark:bg-dark-800', 'dark:hover:bg-dark-700', 'dark:text-gray-200');
+                playButton.classList.add('bg-primary-500', 'hover:bg-primary-600', 'text-white');
+                
+                // If audio is unavailable, show fallback text and notice
+                if (!audioAvailable) {
+                    languageSample.classList.remove('hidden');
+                    audioNotice.textContent = 'Audio is unavailable. Showing text as fallback.';
+                    audioNotice.classList.remove('hidden');
+                } else {
+                    // Auto-play in audio mode when audio is available
+                    setTimeout(() => {
+                        const playPromise = audioElement.play();
+                        
+                        if (playPromise !== undefined) {
+                            playPromise
+                                .then(() => {
+                                    // Auto-play successful
+                                    playButton.innerHTML = `
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+                                            <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zM7 8a1 1 0 012 0v4a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v4a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd" />
+                                        </svg>
+                                        Pause Audio
+                                    `;
+                                })
+                                .catch(error => {
+                                    // Auto-play failed due to browser policy
+                                    console.error('Auto-play prevented:', error);
+                                    audioNotice.textContent = 'Click "Play Audio" to hear the language';
+                                    audioNotice.classList.remove('hidden');
+                                });
+                        }
+                    }, 500);
+                }
+            }
+            
+            // Generate 3 random wrong options
+            let wrongOptions = languageDatabase
+                .filter(item => item.language !== currentQuestion.language)
+                .map(item => item.language);
+            
+            wrongOptions = shuffleArray(wrongOptions).slice(0, 3);
+            
+            // Combine correct and wrong options and shuffle
+            currentOptions = [currentQuestion.language, ...wrongOptions];
+            currentOptions = shuffleArray(currentOptions);
+            
+            // Create option buttons with modern styling
+            optionsContainer.innerHTML = '';
+            currentOptions.forEach(option => {
+                const button = document.createElement('button');
+                button.textContent = option;
+                button.className = 'option-button p-4 text-base font-medium rounded-xl shadow-md dark:shadow-lg bg-white dark:bg-dark-850 hover:bg-gray-50 dark:hover:bg-dark-800 transition-all duration-200 animate-scale-in';
+                button.style.animationDelay = `${Math.random() * 0.2}s`;
+                button.addEventListener('click', () => checkAnswer(option));
+                optionsContainer.appendChild(button);
+            });
+            
+            // Hide feedback
+            feedbackContainer.classList.add('hidden');
+        }
+        
+        // Check the player's answer
+        function checkAnswer(selectedLanguage) {
+            feedbackContainer.classList.remove('hidden');
+            
+            if (selectedLanguage === currentQuestion.language) {
+                // Correct answer
+                currentStreak++;
+                
+                // Update streak displays with animation
+                currentStreakElement.textContent = currentStreak;
+                currentStreakElement.parentElement.classList.add('animate-bounce-once');
+                setTimeout(() => currentStreakElement.parentElement.classList.remove('animate-bounce-once'), 500);
+                
+                if (currentStreak > bestStreak) {
+                    bestStreak = currentStreak;
+                    bestStreakElement.textContent = bestStreak;
+                    bestStreakElement.parentElement.classList.add('animate-bounce-once');
+                    setTimeout(() => bestStreakElement.parentElement.classList.remove('animate-bounce-once'), 500);
+                }
+                
+                // Celebrate milestone streaks
+                celebrateStreak(currentStreak);
+                
+                // Update feedback with correct styling
+                feedbackContainer.className = 'my-6 p-5 rounded-2xl text-center glass-card animate-scale-in bg-correct-50 dark:bg-correct-900/20 border border-correct-200 dark:border-correct-800';
+                feedbackText.className = 'text-lg font-medium text-correct-700 dark:text-correct-300';
+                feedbackText.textContent = `Correct! That was ${currentQuestion.language}.`;
+                continueBtn.classList.remove('bg-primary-500', 'hover:bg-primary-600');
+                continueBtn.classList.add('bg-correct-500', 'hover:bg-correct-600');
+            } else {
+                // Wrong answer
+                currentStreak = 0;
+                currentStreakElement.textContent = currentStreak;
+                
+                // Update feedback with incorrect styling
+                feedbackContainer.className = 'my-6 p-5 rounded-2xl text-center glass-card animate-scale-in bg-incorrect-50 dark:bg-incorrect-900/20 border border-incorrect-200 dark:border-incorrect-800';
+                feedbackText.className = 'text-lg font-medium text-incorrect-700 dark:text-incorrect-300';
+                feedbackText.textContent = `Oops! That was ${currentQuestion.language}.`;
+                continueBtn.classList.remove('bg-primary-500', 'hover:bg-primary-600');
+                continueBtn.classList.add('bg-incorrect-500', 'hover:bg-incorrect-600');
+                
+                // Highlight the correct and wrong options with animations
+                Array.from(optionsContainer.children).forEach(button => {
+                    if (button.textContent === currentQuestion.language) {
+                        button.classList.add('bg-correct-500', 'text-white', 'dark:bg-correct-600');
+                    }
+                    if (button.textContent === selectedLanguage) {
+                        button.classList.add('bg-incorrect-500', 'text-white', 'dark:bg-incorrect-600', 'animate-shake');
+                    }
+                });
+            }
+            
+            // Pause audio if playing
+            const audioElement = document.getElementById('language-audio');
+            if (!audioElement.paused) {
+                audioElement.pause();
+            }
+            
+            // Disable all option buttons
+            Array.from(optionsContainer.children).forEach(button => {
+                button.disabled = true;
+                button.classList.add('opacity-75');
+            });
+        }
+        
+        // Start a new game
+        function startNewGame() {
+            currentStreak = 0;
+            currentStreakElement.textContent = '0';
+            generateQuestion();
+        }
+        
+        // Continue to next question
+        function continueGame() {
+            // Reset continue button style
+            continueBtn.classList.remove('bg-correct-500', 'hover:bg-correct-600', 'bg-incorrect-500', 'hover:bg-incorrect-600');
+            continueBtn.classList.add('bg-primary-500', 'hover:bg-primary-600');
+            
+            generateQuestion();
+        }
+        
+        // Audio playback functionality
+        function setupAudioPlayback() {
+            const audioElement = document.getElementById('language-audio');
+            const playButton = document.getElementById('play-audio');
+            
+            playButton.addEventListener('click', () => {
+                if (audioElement.paused) {
+                    // Start playing
+                    const playPromise = audioElement.play();
+                    
+                    if (playPromise !== undefined) {
+                        playPromise
+                            .then(() => {
+                                // Playback started successfully
+                                playButton.innerHTML = `
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+                                        <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zM7 8a1 1 0 012 0v4a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v4a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd" />
+                                    </svg>
+                                    Pause Audio
+                                `;
+                                
+                                // Add loading indicator if needed
+                                if (audioElement.readyState < 3) {
+                                    playButton.classList.add('animate-pulse-slow');
+                                }
+                                
+                                // Audio is working!
+                                audioAvailable = true;
+                            })
+                            .catch(error => {
+                                // Handle play error (likely a CORS issue)
+                                console.error('Audio play error:', error);
+                                handleAudioError();
+                            });
+                    }
+                } else {
+                    // Pause playing
+                    audioElement.pause();
+                    
+                    // Change button back to play
+                    playButton.innerHTML = `
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M9.383 3.076A1 1 0 0110 4v12a1 1 0 01-1.707.707L4.586 13H2a1 1 0 01-1-1V8a1 1 0 011-1h2.586l3.707-3.707a1 1 0 011.09-.217zM14.657 2.929a1 1 0 011.414 0A9.972 9.972 0 0119 10a9.972 9.972 0 01-2.929 7.071a1 1 0 01-1.414-1.414A7.971 7.971 0 0017 10c0-2.21-.894-4.208-2.343-5.657a1 1 0 010-1.414zm-2.829 2.828a1 1 0 011.415 0A5.983 5.983 0 0115 10a5.984 5.984 0 01-1.757 4.243a1 1 0 01-1.415-1.415A3.984 3.984 0 0013 10a3.983 3.983 0 00-1.172-2.828a1 1 0 010-1.415z" clip-rule="evenodd" />
+                        </svg>
+                        Play Audio
+                    `;
+                    playButton.classList.remove('animate-pulse-slow');
+                }
+            });
+            
+            // Handle audio playback events
+            audioElement.addEventListener('playing', () => {
+                playButton.classList.remove('animate-pulse-slow');
+            });
+            
+            audioElement.addEventListener('ended', () => {
+                // Reset button to play state when audio finishes
+                playButton.innerHTML = `
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M9.383 3.076A1 1 0 0110 4v12a1 1 0 01-1.707.707L4.586 13H2a1 1 0 01-1-1V8a1 1 0 011-1h2.586l3.707-3.707a1 1 0 011.09-.217zM14.657 2.929a1 1 0 011.414 0A9.972 9.972 0 0119 10a9.972 9.972 0 01-2.929 7.071a1 1 0 01-1.414-1.414A7.971 7.971 0 0017 10c0-2.21-.894-4.208-2.343-5.657a1 1 0 010-1.414zm-2.829 2.828a1 1 0 011.415 0A5.983 5.983 0 0115 10a5.984 5.984 0 01-1.757 4.243a1 1 0 01-1.415-1.415A3.984 3.984 0 0013 10a3.983 3.983 0 00-1.172-2.828a1 1 0 010-1.415z" clip-rule="evenodd" />
+                    </svg>
+                    Play Audio
+                `;
+            });
+            
+            audioElement.addEventListener('error', () => {
+                handleAudioError();
+            });
+        }
+        
+        // Handle audio errors
+        function handleAudioError() {
+            console.error('Audio playback error');
+            
+            // Mark audio as unavailable for future questions
+            audioAvailable = false;
+            
+            // In audio mode, we need to switch to text display
+            if (gameMode === 'audio') {
+                // Show the text as a fallback
+                languageSample.classList.remove('hidden');
+            }
+            
+            // Update the audio notice
+            audioNotice.textContent = 'Audio unavailable due to browser restrictions. Using text mode instead.';
+            audioNotice.classList.remove('hidden');
+            
+            // Update button state
+            const playButton = document.getElementById('play-audio');
+            playButton.innerHTML = `
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
+                </svg>
+                Audio Unavailable
+            `;
+            playButton.disabled = true;
+            playButton.classList.add('opacity-50');
+            playButton.classList.remove('animate-pulse-slow');
+        }
+        
+        // Set up game mode switching
+        function setupGameModeSwitching() {
+            textModeBtn.addEventListener('click', () => {
+                if (gameMode !== 'text') {
+                    gameMode = 'text';
+                    updateModeToggle();
+                    
+                    // Start new game when switching modes
+                    startNewGame();
+                }
+            });
+            
+            audioModeBtn.addEventListener('click', () => {
+                if (gameMode !== 'audio') {
+                    gameMode = 'audio';
+                    updateModeToggle();
+                    
+                    // If audio is not available, show warning
+                    if (!audioAvailable) {
+                        audioNotice.textContent = 'Audio is unavailable. Using text mode instead.';
+                        audioNotice.classList.remove('hidden');
+                    }
+                    
+                    // Start new game when switching modes
+                    startNewGame();
+                }
+            });
+            
+            // Set initial state
+            updateModeToggle();
+        }
+        
+        // Event listeners
+        continueBtn.addEventListener('click', continueGame);
+        newGameBtn.addEventListener('click', startNewGame);
+        
+        // Setup audio playback and game mode switching
+        setupAudioPlayback();
+        setupGameModeSwitching();
+        
+        // Initialize game
+        generateQuestion();
+        
+        // High score is now maintained only for the current session
+        // No localStorage due to iframe sandbox restrictions
+    </script>
 </body>
 </html>
