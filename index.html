@@ -96,121 +96,31 @@
         }
     </script>
     <style>
-        /* ...existing styles... */
-        /* (unchanged for brevity) */
-
-        /* Sticky action bar for main buttons */
-        .action-bar {
-            position: fixed;
-            left: 0;
-            bottom: 0;
-            width: 100%;
-            background: rgba(255,255,255,0.96);
-            backdrop-filter: blur(8px);
-            z-index: 20;
-            box-shadow: 0 -2px 16px rgba(0,0,0,0.06);
-            display: flex;
-            justify-content: center;
-            padding: 12px 0;
-            gap: 24px;
-            transition: background 0.2s;
+        /* Custom keyframes */
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+            20%, 40%, 60%, 80% { transform: translateX(5px); }
         }
-        .dark .action-bar {
-            background: rgba(15,23,42,0.92);
-        }
-        @media (max-width: 600px) {
-            .game-container { padding-bottom: 90px !important; }
-            .action-bar { padding: 8px 0; gap: 10px; }
-        }
-    </style>
-</head>
-<body class="min-h-screen font-sans bg-gradient-light dark:bg-gradient-dark text-gray-800 dark:text-gray-100 transition-colors duration-300 selection:bg-primary-200 dark:selection:bg-primary-700">
-
-    <!-- Background shapes -->
-    <div class="bg-shapes">
-        <div class="bg-shape shape-1"></div>
-        <div class="bg-shape shape-2"></div>
-        <div class="bg-shape shape-3"></div>
-    </div>
-
-    <div class="relative min-h-screen px-4 py-8 mx-auto game-container" style="padding-bottom:110px;">
-        <!-- Theme toggle button -->
-        <!-- ... theme toggle unchanged ... -->
-
-        <div class="text-center">
-            <div class="inline-block animate-float">
-                <h1 class="mb-2 text-3xl font-bold tracking-tight text-primary-600 dark:text-primary-400">
-                    Guess the Language!
-                </h1>
-            </div>
-            <!-- ... rest of your markup unchanged ... -->
-        </div>
         
-        <div class="my-6 animate-scale-in">
-            <!-- Main game card with glassmorphism -->
-            <!-- ... -->
-        </div>
+        @keyframes scaleIn {
+            0% { transform: scale(0.8); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
         
-        <!-- Feedback card -->
-        <div id="feedback-container" class="hidden my-6 p-4 rounded-2xl text-center glass-card animate-scale-in">
-            <p id="feedback-text" class="text-lg font-medium"></p>
-        </div>
-        <!-- Removed the old "New Game" button from inside .game-container -->
-    </div>
-
-    <!-- Sticky Action Bar for Continue/New Game buttons -->
-    <div class="action-bar">
-        <button id="continue-btn" class="hidden px-6 py-3 font-medium text-white rounded-full bg-primary-500 hover:bg-primary-600 transition-all duration-200">
-            Continue
-        </button>
-        <button id="new-game-btn" class="px-6 py-3 font-medium text-white rounded-full bg-primary-500 hover:bg-primary-600 transition-all duration-200">
-            New Game
-        </button>
-    </div>
-
-    <script>
-        // ...keep your existing JS and add the following at the end...
-
-        // Sticky bar button logic
-        function showContinueButton(show=true) {
-            document.getElementById('continue-btn').classList.toggle('hidden', !show);
+        @keyframes fadeIn {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
         }
-        function showNewGameButton(show=true) {
-            document.getElementById('new-game-btn').classList.toggle('hidden', !show);
+        
+        @keyframes slideUp {
+            0% { transform: translateY(10px); opacity: 0; }
+            100% { transform: translateY(0); opacity: 1; }
         }
-
-        // Example integration (additions/replacements for your current game logic)
-        // Call these functions at appropriate points in your game:
-        // - After answering, showContinueButton(true), showNewGameButton(false)
-        // - On new game or next, showContinueButton(false), showNewGameButton(true)
-
-        // Example (insert into your checkAnswer/feedback logic):
-        function checkAnswer(selectedLanguage) {
-            // ...your existing logic...
-            showContinueButton(true);
-            showNewGameButton(false);
-            // ...rest of your logic...
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
         }
-        function continueGame() {
-            showContinueButton(false);
-            showNewGameButton(true);
-            // ...your logic for next question...
-        }
-        function startNewGame() {
-            showContinueButton(false);
-            showNewGameButton(true);
-            // ...your logic for new game...
-        }
-
-        // Button events (replace old ones if needed)
-        document.getElementById('continue-btn').onclick = continueGame;
-        document.getElementById('new-game-btn').onclick = startNewGame;
-
-        // On load, show only New Game
-        showContinueButton(false);
-        showNewGameButton(true);
-
-        // ...rest of your JS unchanged...
-    </script>
-</body>
-</html>
+        
+        /* Custom background
