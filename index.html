@@ -63,32 +63,6 @@
                         'slide-up': 'slideUp 0.3s ease-out forwards',
                         'pulse-slow': 'pulse 2.5s infinite',
                         'float': 'float 6s ease-in-out infinite',
-                    },
-                    keyframes: {
-                        shake: {
-                            '0%, 100%': { transform: 'translateX(0)' },
-                            '10%, 30%, 50%, 70%, 90%': { transform: 'translateX(-5px)' },
-                            '20%, 40%, 60%, 80%': { transform: 'translateX(5px)' },
-                        },
-                        scaleIn: {
-                            '0%': { transform: 'scale(0.8)', opacity: '0' },
-                            '100%': { transform: 'scale(1)', opacity: '1' },
-                        },
-                        fadeIn: {
-                            '0%': { opacity: '0' },
-                            '100%': { opacity: '1' },
-                        },
-                        slideUp: {
-                            '0%': { transform: 'translateY(10px)', opacity: '0' },
-                            '100%': { transform: 'translateY(0)', opacity: '1' },
-                        },
-                        float: {
-                            '0%, 100%': { transform: 'translateY(0)' },
-                            '50%': { transform: 'translateY(-10px)' },
-                        }
-                    },
-                    backdropBlur: {
-                        xs: '2px',
                     }
                 }
             }
@@ -176,46 +150,25 @@
         .bg-shape {
             position: absolute;
             border-radius: 50%;
-            opacity: 0.5;
+            opacity: 0.3;
         }
         
         .shape-1 {
-            top: 20%;
-            left: 10%;
-            width: 300px;
-            height: 300px;
-            background: radial-gradient(circle, rgba(113,85,255,0.2) 0%, rgba(113,85,255,0) 70%);
+            top: 10%;
+            left: 5%;
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle, rgba(113,85,255,0.15) 0%, rgba(113,85,255,0) 70%);
             animation: float 8s ease-in-out infinite;
         }
         
         .shape-2 {
-            bottom: 10%;
-            right: 15%;
-            width: 250px;
-            height: 250px;
-            background: radial-gradient(circle, rgba(16,185,129,0.2) 0%, rgba(16,185,129,0) 70%);
-            animation: float 6s ease-in-out infinite reverse;
-        }
-        
-        .shape-3 {
-            top: 50%;
-            right: 5%;
-            width: 200px;
-            height: 200px;
-            background: radial-gradient(circle, rgba(239,68,68,0.2) 0%, rgba(239,68,68,0) 70%);
-            animation: float 10s ease-in-out infinite;
-        }
-        
-        .dark .shape-1 {
-            background: radial-gradient(circle, rgba(113,85,255,0.15) 0%, rgba(113,85,255,0) 70%);
-        }
-        
-        .dark .shape-2 {
+            bottom: 5%;
+            right: 10%;
+            width: 150px;
+            height: 150px;
             background: radial-gradient(circle, rgba(16,185,129,0.15) 0%, rgba(16,185,129,0) 70%);
-        }
-        
-        .dark .shape-3 {
-            background: radial-gradient(circle, rgba(239,68,68,0.15) 0%, rgba(239,68,68,0) 70%);
+            animation: float 6s ease-in-out infinite reverse;
         }
         
         /* No selection on buttons */
@@ -223,10 +176,12 @@
             user-select: none;
         }
         
-        /* Game container */
+        /* Game container - fixed height */
         .game-container {
-            max-width: 550px;
+            max-width: 500px;
             margin: 0 auto;
+            height: 100vh;
+            overflow: hidden;
         }
 
         /* Simple confetti animation */
@@ -242,8 +197,8 @@
         
         .confetti-piece {
             position: absolute;
-            width: 10px;
-            height: 10px;
+            width: 8px;
+            height: 8px;
             background: #7155FF;
             animation: confetti-fall 3s ease-out forwards;
         }
@@ -260,98 +215,101 @@
         }
     </style>
 </head>
-<body class="min-h-screen font-sans bg-gradient-light dark:bg-gradient-dark text-gray-800 dark:text-gray-100 transition-colors duration-300 selection:bg-primary-200 dark:selection:bg-primary-700">
+<body class="font-sans bg-gradient-light dark:bg-gradient-dark text-gray-800 dark:text-gray-100 transition-colors duration-300 selection:bg-primary-200 dark:selection:bg-primary-700">
     <!-- Background shapes -->
     <div class="bg-shapes">
         <div class="bg-shape shape-1"></div>
         <div class="bg-shape shape-2"></div>
-        <div class="bg-shape shape-3"></div>
     </div>
 
-    <div class="relative min-h-screen px-4 py-8 mx-auto game-container">
+    <div class="game-container px-4 py-2 flex flex-col">
         <!-- Theme toggle button -->
-        <button id="theme-toggle" class="absolute z-10 p-2 transition-colors rounded-full top-4 right-4 text-primary-600 hover:bg-gray-100 dark:text-primary-300 dark:hover:bg-dark-800">
-            <svg xmlns="http://www.w3.org/2000/svg" class="hidden w-5 h-5 dark:block" viewBox="0 0 20 20" fill="currentColor">
+        <button id="theme-toggle" class="absolute z-10 p-2 transition-colors rounded-full top-2 right-2 text-primary-600 hover:bg-gray-100 dark:text-primary-300 dark:hover:bg-dark-800">
+            <svg xmlns="http://www.w3.org/2000/svg" class="hidden w-4 h-4 dark:block" viewBox="0 0 20 20" fill="currentColor">
                 <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd" />
             </svg>
-            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 dark:hidden" viewBox="0 0 20 20" fill="currentColor">
-                <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" />
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 dark:hidden" viewBox="0 0 20 20" fill="currentColor">
+                <path d="M17.293 13.293A8 8 0 716.707 2.707a8.001 8.001 0 1010.586 10.586z" />
             </svg>
         </button>
 
-        <div class="text-center">
-            <div class="inline-block animate-float">
-                <h1 class="mb-2 text-3xl font-bold tracking-tight bg-gradient-to-r from-primary-500 to-purple-600 dark:from-primary-400 dark:to-purple-500 bg-clip-text text-transparent">Guess the Language!</h1>
-            </div>
+        <!-- Header - minimal height -->
+        <div class="text-center pt-1 pb-2">
+            <h1 class="mb-2 text-xl font-bold tracking-tight bg-gradient-to-r from-primary-500 to-purple-600 dark:from-primary-400 dark:to-purple-500 bg-clip-text text-transparent">Guess the Language!</h1>
             
-            <!-- Stats area with glassmorphism -->
-            <div class="flex justify-center gap-6 p-3 mx-auto my-4 rounded-full w-fit glass-card animate-fade-in">
-                <div class="flex items-center gap-2">
-                    <span class="text-sm font-medium text-gray-600 dark:text-gray-300">Current</span>
-                    <div class="flex items-center justify-center w-10 h-10 text-lg font-bold rounded-full text-primary-700 dark:text-primary-300 bg-primary-50 dark:bg-primary-900/30">
+            <!-- Stats area - compact -->
+            <div class="flex justify-center gap-3 p-2 mx-auto mb-2 rounded-full w-fit glass-card">
+                <div class="flex items-center gap-1">
+                    <span class="text-xs font-medium text-gray-600 dark:text-gray-300">Current</span>
+                    <div class="flex items-center justify-center w-7 h-7 text-sm font-bold rounded-full text-primary-700 dark:text-primary-300 bg-primary-50 dark:bg-primary-900/30">
                         <span id="current-streak">0</span>
                     </div>
                 </div>
-                <div class="w-px h-8 my-auto bg-gray-200 dark:bg-gray-700"></div>
-                <div class="flex items-center gap-2">
-                    <span class="text-sm font-medium text-gray-600 dark:text-gray-300">Best</span>
-                    <div class="flex items-center justify-center w-10 h-10 text-lg font-bold rounded-full text-primary-700 dark:text-primary-300 bg-primary-50 dark:bg-primary-900/30">
+                <div class="w-px h-5 my-auto bg-gray-200 dark:bg-gray-700"></div>
+                <div class="flex items-center gap-1">
+                    <span class="text-xs font-medium text-gray-600 dark:text-gray-300">Best</span>
+                    <div class="flex items-center justify-center w-7 h-7 text-sm font-bold rounded-full text-primary-700 dark:text-primary-300 bg-primary-50 dark:bg-primary-900/30">
                         <span id="best-streak">0</span>
                     </div>
                 </div>
             </div>
             
-            <!-- Mode toggle - Only showing Text Mode for GitHub version -->
-            <div class="flex justify-center mb-6">
-                <div class="p-1 glass-card rounded-xl">
+            <!-- Mode toggle - compact -->
+            <div class="flex justify-center mb-2">
+                <div class="p-1 glass-card rounded-lg">
                     <div class="flex">
-                        <button id="text-mode-btn" class="relative px-5 py-2 text-sm font-medium transition-all duration-200 rounded-lg bg-primary-500 text-white">
+                        <button id="text-mode-btn" class="relative px-3 py-1 text-xs font-medium transition-all duration-200 rounded bg-primary-500 text-white" aria-pressed="true">
                             <span>Text Mode</span>
                         </button>
-                        <button id="audio-mode-btn" class="relative px-5 py-2 text-sm font-medium transition-all duration-200 rounded-lg opacity-50 cursor-not-allowed" disabled title="Audio mode not available on GitHub Pages due to CORS restrictions">
-                            <span>Audio Mode (Unavailable)</span>
+                        <button id="audio-mode-btn" class="relative px-3 py-1 text-xs font-medium transition-all duration-200 rounded text-gray-700 dark:text-gray-300" aria-pressed="false">
+                            <span>Audio Mode</span>
                         </button>
                     </div>
                 </div>
             </div>
         </div>
         
-        <div class="my-6 animate-scale-in">
-            <!-- Main game card with glassmorphism -->
-            <div class="p-6 mb-6 text-center rounded-2xl shadow-lg glass-card">
-                <p class="text-lg font-medium">What language is this?</p>
-                <div class="flex flex-col items-center justify-center my-4">
-                    <p id="language-sample" class="p-4 my-4 text-xl italic font-medium bg-gray-50 dark:bg-dark-850 rounded-xl animate-fade-in"></p>
-                    <div id="audio-notice" class="hidden mt-3 text-sm text-amber-600 dark:text-amber-400 animate-fade-in">
-                        Audio mode is not available on GitHub Pages due to browser security restrictions.
-                    </div>
+        <!-- Game content - flexible area that fills remaining space -->
+        <div class="flex-1 flex flex-col justify-center min-h-0">
+            <!-- Main game card - compact -->
+            <div class="p-4 mb-3 text-center rounded-xl shadow-lg glass-card">
+                <p class="text-sm font-medium mb-2">What language is this?</p>
+                <div class="flex flex-col items-center justify-center">
+                    <p id="language-sample" class="p-3 text-base italic font-medium bg-gray-50 dark:bg-dark-850 rounded-lg animate-fade-in max-h-16 overflow-hidden leading-tight"></p>
+                    <button id="play-audio" class="hidden flex items-center justify-center px-3 py-2 mt-2 text-xs font-medium transition-all duration-200 rounded-full hover:shadow-md active:scale-95 bg-primary-500 hover:bg-primary-600 text-white">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-3 h-3 mr-1" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M9.383 3.076A1 1 0 0110 4v12a1 1 0 01-1.707.707L4.586 13H2a1 1 0 01-1-1V8a1 1 0 011-1h2.586l3.707-3.707a1 1 0 011.09-.217z" clip-rule="evenodd" />
+                        </svg>
+                        <span id="audio-btn-text">Play Audio</span>
+                    </button>
+                    <div id="audio-notice" class="hidden mt-2 text-xs text-amber-600 dark:text-amber-400 animate-fade-in"></div>
                 </div>
             </div>
             
-            <!-- Answer options grid -->
-            <div id="options-container" class="grid grid-cols-2 gap-3 sm:grid-cols-2 animate-slide-up">
+            <!-- Answer options grid - compact -->
+            <div id="options-container" class="grid grid-cols-2 gap-2 mb-3 animate-slide-up">
                 <!-- Options will be populated by JavaScript -->
+            </div>
+            
+            <!-- Feedback card - compact -->
+            <div id="feedback-container" class="hidden p-3 rounded-xl text-center glass-card animate-scale-in">
+                <p id="feedback-text" class="text-sm font-medium mb-2"></p>
+                <button id="continue-btn" class="px-4 py-2 text-xs font-medium text-white transition-all duration-200 rounded-full hover:shadow-md active:scale-95 bg-primary-500 hover:bg-primary-600">
+                    Continue
+                </button>
             </div>
         </div>
         
-        <!-- Feedback card -->
-        <div id="feedback-container" class="hidden my-6 p-4 rounded-2xl text-center glass-card animate-scale-in">
-            <p id="feedback-text" class="text-lg font-medium"></p>
-            <button id="continue-btn" class="mt-5 px-6 py-3 font-medium text-white transition-all duration-200 rounded-full hover:shadow-md active:scale-95 bg-primary-500 hover:bg-primary-600">
-                Continue
-            </button>
-        </div>
-        
-        <!-- New game button -->
-        <div class="flex justify-center mt-8">
-            <button id="new-game-btn" class="px-6 py-3 font-medium text-white transition-all duration-200 rounded-full hover:shadow-md active:scale-95 bg-primary-500 hover:bg-primary-600">
+        <!-- Footer - minimal height -->
+        <div class="flex justify-center pb-2">
+            <button id="new-game-btn" class="px-4 py-2 text-xs font-medium text-white transition-all duration-200 rounded-full hover:shadow-md active:scale-95 bg-primary-500 hover:bg-primary-600">
                 New Game
             </button>
         </div>
     </div>
 
     <script>
-        // Check for dark mode preference (without localStorage for GitHub compatibility)
+        // Check for dark mode preference
         function updateTheme() {
             if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
                 document.documentElement.classList.add('dark');
@@ -360,10 +318,8 @@
             }
         }
         
-        // Initial theme check
         updateTheme();
         
-        // Theme toggle button
         document.getElementById('theme-toggle').addEventListener('click', () => {
             if (document.documentElement.classList.contains('dark')) {
                 document.documentElement.classList.remove('dark');
@@ -372,7 +328,6 @@
             }
         });
         
-        // Listen for system theme changes
         window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', event => {
             if (event.matches) {
                 document.documentElement.classList.add('dark');
@@ -381,38 +336,38 @@
             }
         });
         
-        // Language database with text samples
+        // Language database with language codes for Web Speech API
         const languageDatabase = [
-            { language: 'Spanish', sample: 'Buenos días, ¿cómo estás hoy? Espero que tengas un día maravilloso.' },
-            { language: 'French', sample: 'Bonjour, comment allez-vous aujourd\'hui? J\'espère que vous passez une belle journée.' },
-            { language: 'German', sample: 'Guten Tag, wie geht es Ihnen heute? Ich hoffe, Sie haben einen wunderbaren Tag.' },
-            { language: 'Italian', sample: 'Buongiorno, come stai oggi? Spero che tu abbia una giornata meravigliosa.' },
-            { language: 'Portuguese', sample: 'Bom dia, como está hoje? Espero que tenha um dia maravilhoso.' },
-            { language: 'Dutch', sample: 'Goedendag, hoe gaat het vandaag met je? Ik hoop dat je een geweldige dag hebt.' },
-            { language: 'Swedish', sample: 'God dag, hur mår du idag? Jag hoppas att du får en underbar dag.' },
-            { language: 'Norwegian', sample: 'God dag, hvordan har du det i dag? Jeg håper du får en fantastisk dag.' },
-            { language: 'Danish', sample: 'Goddag, hvordan har du det i dag? Jeg håber, du får en vidunderlig dag.' },
-            { language: 'Finnish', sample: 'Hyvää päivää, miten voit tänään? Toivon, että sinulla on ihana päivä.' },
-            { language: 'Greek', sample: 'Καλημέρα, πώς είσαι σήμερα; Ελπίζω να έχεις μια υπέροχη μέρα.' },
-            { language: 'Russian', sample: 'Добрый день, как вы себя чувствуете сегодня? Надеюсь, у вас замечательный день.' },
-            { language: 'Polish', sample: 'Dzień dobry, jak się masz dzisiaj? Mam nadzieję, że masz wspaniały dzień.' },
-            { language: 'Czech', sample: 'Dobrý den, jak se dnes máte? Doufám, že máte nádherný den.' },
-            { language: 'Hungarian', sample: 'Jó napot, hogy vagy ma? Remélem, csodálatos napod van.' },
-            { language: 'Romanian', sample: 'Bună ziua, cum ești astăzi? Sper că ai o zi minunată.' },
-            { language: 'Turkish', sample: 'Merhaba, bugün nasılsın? Harika bir gün geçirmeni dilerim.' },
-            { language: 'Arabic', sample: 'مرحبا، كيف حالك اليوم؟ أتمنى أن يكون يومك رائعا.' },
-            { language: 'Hindi', sample: 'नमस्ते, आज आप कैसे हैं? मुझे आशा है कि आपका दिन बहुत अच्छा हो।' },
-            { language: 'Japanese', sample: 'こんにちは、今日の調子はどうですか？素晴らしい一日をお過ごしください。' },
-            { language: 'Korean', sample: '안녕하세요, 오늘 어떻게 지내세요? 좋은 하루가 되길 바랍니다.' },
-            { language: 'Chinese', sample: '你好，今天好吗？希望你有美好的一天。' },
-            { language: 'Vietnamese', sample: 'Xin chào, hôm nay bạn thế nào? Chúc bạn một ngày tuyệt vời.' },
-            { language: 'Thai', sample: 'สวัสดี คุณเป็นอย่างไรบ้างวันนี้? ขอให้คุณมีวันที่ยอดเยี่ยม.' },
-            { language: 'Indonesian', sample: 'Halo, apa kabar hari ini? Semoga Anda memiliki hari yang indah.' },
-            { language: 'Tagalog', sample: 'Kumusta, kamusta ka ngayon? Sana ay magkaroon ka ng magandang araw.' },
-            { language: 'Swahili', sample: 'Habari, hali yako ikoje leo? Natumaini una siku nzuri.' },
-            { language: 'Icelandic', sample: 'Góðan dag, hvernig hefur þú það í dag? Ég vona að þú eigir frábæran dag.' },
-            { language: 'Welsh', sample: 'Helo, sut ydych chi heddiw? Gobeithio bod gennych ddiwrnod gwych.' },
-            { language: 'Irish', sample: 'Dia dhuit, conas atá tú inniu? Tá súil agam go mbeidh lá iontach agat.' }
+            { language: 'Spanish', langCode: 'es-ES', sample: 'Buenos días, ¿cómo estás hoy? Espero que tengas un día maravilloso.' },
+            { language: 'French', langCode: 'fr-FR', sample: 'Bonjour, comment allez-vous aujourd\'hui? J\'espère que vous passez une belle journée.' },
+            { language: 'German', langCode: 'de-DE', sample: 'Guten Tag, wie geht es Ihnen heute? Ich hoffe, Sie haben einen wunderbaren Tag.' },
+            { language: 'Italian', langCode: 'it-IT', sample: 'Buongiorno, come stai oggi? Spero che tu abbia una giornata meravigliosa.' },
+            { language: 'Portuguese', langCode: 'pt-PT', sample: 'Bom dia, como está hoje? Espero que tenha um dia maravilhoso.' },
+            { language: 'Dutch', langCode: 'nl-NL', sample: 'Goedendag, hoe gaat het vandaag met je? Ik hoop dat je een geweldige dag hebt.' },
+            { language: 'Swedish', langCode: 'sv-SE', sample: 'God dag, hur mår du idag? Jag hoppas att du får en underbar dag.' },
+            { language: 'Norwegian', langCode: 'no-NO', sample: 'God dag, hvordan har du det i dag? Jeg håper du får en fantastisk dag.' },
+            { language: 'Danish', langCode: 'da-DK', sample: 'Goddag, hvordan har du det i dag? Jeg håber, du får en vidunderlig dag.' },
+            { language: 'Finnish', langCode: 'fi-FI', sample: 'Hyvää päivää, miten voit tänään? Toivon, että sinulla on ihana päivä.' },
+            { language: 'Greek', langCode: 'el-GR', sample: 'Καλημέρα, πώς είσαι σήμερα; Ελπίζω να έχεις μια υπέροχη μέρα.' },
+            { language: 'Russian', langCode: 'ru-RU', sample: 'Добрый день, как вы себя чувствуете сегодня? Надеюсь, у вас замечательный день.' },
+            { language: 'Polish', langCode: 'pl-PL', sample: 'Dzień dobry, jak się masz dzisiaj? Mam nadzieję, że masz wspaniały dzień.' },
+            { language: 'Czech', langCode: 'cs-CZ', sample: 'Dobrý den, jak se dnes máte? Doufám, že máte nádherný den.' },
+            { language: 'Hungarian', langCode: 'hu-HU', sample: 'Jó napot, hogy vagy ma? Remélem, csodálatos napod van.' },
+            { language: 'Romanian', langCode: 'ro-RO', sample: 'Bună ziua, cum ești astăzi? Sper că ai o zi minunată.' },
+            { language: 'Turkish', langCode: 'tr-TR', sample: 'Merhaba, bugün nasılsın? Harika bir gün geçirmeni dilerim.' },
+            { language: 'Arabic', langCode: 'ar-SA', sample: 'مرحبا، كيف حالك اليوم؟ أتمنى أن يكون يومك رائعا.' },
+            { language: 'Hindi', langCode: 'hi-IN', sample: 'नमस्ते, आज आप कैसे हैं? मुझे आशा है कि आपका दिन बहुत अच्छा हो।' },
+            { language: 'Japanese', langCode: 'ja-JP', sample: 'こんにちは、今日の調子はどうですか？素晴らしい一日をお過ごしください。' },
+            { language: 'Korean', langCode: 'ko-KR', sample: '안녕하세요, 오늘 어떻게 지내세요? 좋은 하루가 되길 바랍니다.' },
+            { language: 'Chinese', langCode: 'zh-CN', sample: '你好，今天好吗？希望你有美好的一天。' },
+            { language: 'Vietnamese', langCode: 'vi-VN', sample: 'Xin chào, hôm nay bạn thế nào? Chúc bạn một ngày tuyệt vời.' },
+            { language: 'Thai', langCode: 'th-TH', sample: 'สวัสดี คุณเป็นอย่างไรบ้างวันนี้? ขอให้คุณมีวันที่ยอดเยี่ยม.' },
+            { language: 'Indonesian', langCode: 'id-ID', sample: 'Halo, apa kabar hari ini? Semoga Anda memiliki hari yang indah.' },
+            { language: 'Tagalog', langCode: 'tl-PH', sample: 'Kumusta, kamusta ka ngayon? Sana ay magkaroon ka ng magandang araw.' },
+            { language: 'Swahili', langCode: 'sw-KE', sample: 'Habari, hali yako ikoje leo? Natumaini una siku nzuri.' },
+            { language: 'Icelandic', langCode: 'is-IS', sample: 'Góðan dag, hvernig hefur þú það í dag? Ég vona að þú eigir frábæran dag.' },
+            { language: 'Welsh', langCode: 'cy-GB', sample: 'Helo, sut ydych chi heddiw? Gobeithio bod gennych ddiwrnod gwych.' },
+            { language: 'Irish', langCode: 'ga-IE', sample: 'Dia dhuit, conas atá tú inniu? Tá súil agam go mbeidh lá iontach agat.' }
         ];
         
         // Game state
@@ -420,7 +375,10 @@
         let bestStreak = 0;
         let currentQuestion = null;
         let currentOptions = [];
-        let gameMode = 'text'; // Only text mode for GitHub version
+        let gameMode = 'text';
+        let speechSynthesis = null;
+        let currentUtterance = null;
+        let speechAvailable = false;
         
         // DOM elements
         const languageSample = document.getElementById('language-sample');
@@ -432,8 +390,36 @@
         const continueBtn = document.getElementById('continue-btn');
         const newGameBtn = document.getElementById('new-game-btn');
         const audioNotice = document.getElementById('audio-notice');
+        const textModeBtn = document.getElementById('text-mode-btn');
+        const audioModeBtn = document.getElementById('audio-mode-btn');
+        const playAudioBtn = document.getElementById('play-audio');
+        const audioBtnText = document.getElementById('audio-btn-text');
         
-        // Fisher-Yates shuffle algorithm
+        // Initialize Web Speech API
+        function initializeSpeech() {
+            if ('speechSynthesis' in window) {
+                speechSynthesis = window.speechSynthesis;
+                speechAvailable = true;
+                console.log('Speech synthesis available');
+                
+                // Wait for voices to be loaded
+                let voicesLoaded = false;
+                const loadVoices = () => {
+                    const voices = speechSynthesis.getVoices();
+                    if (voices.length > 0 && !voicesLoaded) {
+                        voicesLoaded = true;
+                        console.log('Voices loaded:', voices.length);
+                    }
+                };
+                
+                speechSynthesis.addEventListener('voiceschanged', loadVoices);
+                loadVoices(); // Call immediately in case voices are already loaded
+            } else {
+                console.log('Speech synthesis not supported');
+                speechAvailable = false;
+            }
+        }
+        
         function shuffleArray(array) {
             for (let i = array.length - 1; i > 0; i--) {
                 const j = Math.floor(Math.random() * (i + 1));
@@ -442,81 +428,182 @@
             return array;
         }
         
-        // Simple confetti effect (replacement for external library)
+        function updateModeToggle() {
+            textModeBtn.classList.remove('bg-primary-500', 'text-white');
+            audioModeBtn.classList.remove('bg-primary-500', 'text-white');
+            textModeBtn.classList.add('text-gray-700', 'dark:text-gray-300');
+            audioModeBtn.classList.add('text-gray-700', 'dark:text-gray-300');
+            
+            if (gameMode === 'text') {
+                textModeBtn.classList.remove('text-gray-700', 'dark:text-gray-300');
+                textModeBtn.classList.add('bg-primary-500', 'text-white');
+                textModeBtn.setAttribute('aria-pressed', 'true');
+                audioModeBtn.setAttribute('aria-pressed', 'false');
+            } else {
+                audioModeBtn.classList.remove('text-gray-700', 'dark:text-gray-300');
+                audioModeBtn.classList.add('bg-primary-500', 'text-white');
+                audioModeBtn.setAttribute('aria-pressed', 'true');
+                textModeBtn.setAttribute('aria-pressed', 'false');
+            }
+        }
+        
         function createSimpleConfetti() {
             const colors = ['#7155FF', '#10B981', '#3B82F6', '#F59E0B', '#EF4444'];
             const confettiContainer = document.createElement('div');
             confettiContainer.className = 'confetti';
             document.body.appendChild(confettiContainer);
             
-            for (let i = 0; i < 50; i++) {
+            for (let i = 0; i < 30; i++) {
                 const piece = document.createElement('div');
                 piece.className = 'confetti-piece';
                 piece.style.left = Math.random() * 100 + '%';
                 piece.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-                piece.style.animationDelay = Math.random() * 3 + 's';
-                piece.style.animationDuration = (Math.random() * 2 + 2) + 's';
+                piece.style.animationDelay = Math.random() * 2 + 's';
+                piece.style.animationDuration = (Math.random() * 1 + 2) + 's';
                 confettiContainer.appendChild(piece);
             }
             
             setTimeout(() => {
                 document.body.removeChild(confettiContainer);
-            }, 5000);
+            }, 4000);
         }
         
-        // Trigger confetti effect for milestone streaks
         function celebrateStreak(streak) {
-            if (streak % 5 === 0 && streak > 0) { // Celebrate every 5 streaks
+            if (streak % 5 === 0 && streak > 0) {
                 createSimpleConfetti();
             }
         }
         
-        // Generate a new question
+        function speakText(text, langCode) {
+            if (!speechAvailable || !speechSynthesis) {
+                console.log('Speech not available');
+                return false;
+            }
+            
+            // Stop any current speech
+            speechSynthesis.cancel();
+            
+            try {
+                const utterance = new SpeechSynthesisUtterance(text);
+                
+                // Try to find a voice for the specific language
+                const voices = speechSynthesis.getVoices();
+                const voice = voices.find(v => v.lang.startsWith(langCode.split('-')[0])) || 
+                             voices.find(v => v.lang.includes(langCode)) ||
+                             voices[0]; // Fallback to first available voice
+                
+                if (voice) {
+                    utterance.voice = voice;
+                    utterance.lang = langCode;
+                }
+                
+                utterance.rate = 0.8; // Slightly slower for clarity
+                utterance.pitch = 1;
+                utterance.volume = 1;
+                
+                currentUtterance = utterance;
+                
+                utterance.onstart = () => {
+                    audioBtnText.textContent = 'Speaking...';
+                    playAudioBtn.disabled = true;
+                };
+                
+                utterance.onend = () => {
+                    audioBtnText.textContent = 'Play Audio';
+                    playAudioBtn.disabled = false;
+                    currentUtterance = null;
+                };
+                
+                utterance.onerror = (event) => {
+                    console.error('Speech error:', event.error);
+                    audioBtnText.textContent = 'Audio Error';
+                    playAudioBtn.disabled = false;
+                    currentUtterance = null;
+                };
+                
+                speechSynthesis.speak(utterance);
+                return true;
+            } catch (error) {
+                console.error('Speech synthesis error:', error);
+                return false;
+            }
+        }
+        
         function generateQuestion() {
-            // Get a random language
             const randomIndex = Math.floor(Math.random() * languageDatabase.length);
             currentQuestion = languageDatabase[randomIndex];
             
-            // Always display the text sample with animation
             languageSample.textContent = currentQuestion.sample;
             languageSample.classList.add('animate-fade-in');
             setTimeout(() => languageSample.classList.remove('animate-fade-in'), 300);
             
-            // Generate 3 random wrong options
+            audioNotice.textContent = '';
+            audioNotice.classList.add('hidden');
+            
+            if (gameMode === 'text') {
+                languageSample.classList.remove('hidden');
+                playAudioBtn.classList.add('hidden');
+                audioNotice.classList.add('hidden');
+            } else {
+                // Audio mode
+                languageSample.classList.add('hidden');
+                playAudioBtn.classList.remove('hidden');
+                
+                if (!speechAvailable) {
+                    languageSample.classList.remove('hidden');
+                    audioNotice.textContent = 'Speech synthesis is not available in your browser. Showing text as fallback.';
+                    audioNotice.classList.remove('hidden');
+                    playAudioBtn.classList.add('hidden');
+                } else {
+                    audioBtnText.textContent = 'Play Audio';
+                    playAudioBtn.disabled = false;
+                    
+                    // Auto-play in audio mode (with user interaction requirement check)
+                    setTimeout(() => {
+                        if (gameMode === 'audio' && speechAvailable) {
+                            const success = speakText(currentQuestion.sample, currentQuestion.langCode);
+                            if (!success) {
+                                audioNotice.textContent = 'Click "Play Audio" to hear the language';
+                                audioNotice.classList.remove('hidden');
+                            }
+                        }
+                    }, 500);
+                }
+            }
+            
             let wrongOptions = languageDatabase
                 .filter(item => item.language !== currentQuestion.language)
                 .map(item => item.language);
             
             wrongOptions = shuffleArray(wrongOptions).slice(0, 3);
-            
-            // Combine correct and wrong options and shuffle
             currentOptions = [currentQuestion.language, ...wrongOptions];
             currentOptions = shuffleArray(currentOptions);
             
-            // Create option buttons with modern styling
             optionsContainer.innerHTML = '';
             currentOptions.forEach(option => {
                 const button = document.createElement('button');
                 button.textContent = option;
-                button.className = 'option-button p-4 text-base font-medium rounded-xl shadow-md dark:shadow-lg bg-white dark:bg-dark-850 hover:bg-gray-50 dark:hover:bg-dark-800 transition-all duration-200 animate-scale-in';
+                button.className = 'option-button p-3 text-sm font-medium rounded-lg shadow-md dark:shadow-lg bg-white dark:bg-dark-850 hover:bg-gray-50 dark:hover:bg-dark-800 transition-all duration-200 animate-scale-in';
                 button.style.animationDelay = `${Math.random() * 0.2}s`;
                 button.addEventListener('click', () => checkAnswer(option));
                 optionsContainer.appendChild(button);
             });
             
-            // Hide feedback
             feedbackContainer.classList.add('hidden');
         }
         
-        // Check the player's answer
         function checkAnswer(selectedLanguage) {
+            // Stop any current speech
+            if (speechSynthesis && currentUtterance) {
+                speechSynthesis.cancel();
+                audioBtnText.textContent = 'Play Audio';
+                playAudioBtn.disabled = false;
+            }
+            
             feedbackContainer.classList.remove('hidden');
             
             if (selectedLanguage === currentQuestion.language) {
-                // Correct answer
                 currentStreak++;
-                
-                // Update streak displays with animation
                 currentStreakElement.textContent = currentStreak;
                 currentStreakElement.parentElement.classList.add('animate-bounce-once');
                 setTimeout(() => currentStreakElement.parentElement.classList.remove('animate-bounce-once'), 500);
@@ -528,28 +615,23 @@
                     setTimeout(() => bestStreakElement.parentElement.classList.remove('animate-bounce-once'), 500);
                 }
                 
-                // Celebrate milestone streaks
                 celebrateStreak(currentStreak);
                 
-                // Update feedback with correct styling
-                feedbackContainer.className = 'my-6 p-5 rounded-2xl text-center glass-card animate-scale-in bg-correct-50 dark:bg-correct-900/20 border border-correct-200 dark:border-correct-800';
-                feedbackText.className = 'text-lg font-medium text-correct-700 dark:text-correct-300';
+                feedbackContainer.className = 'p-3 rounded-xl text-center glass-card animate-scale-in bg-correct-50 dark:bg-correct-900/20 border border-correct-200 dark:border-correct-800';
+                feedbackText.className = 'text-sm font-medium text-correct-700 dark:text-correct-300 mb-2';
                 feedbackText.textContent = `Correct! That was ${currentQuestion.language}.`;
                 continueBtn.classList.remove('bg-primary-500', 'hover:bg-primary-600');
                 continueBtn.classList.add('bg-correct-500', 'hover:bg-correct-600');
             } else {
-                // Wrong answer
                 currentStreak = 0;
                 currentStreakElement.textContent = currentStreak;
                 
-                // Update feedback with incorrect styling
-                feedbackContainer.className = 'my-6 p-5 rounded-2xl text-center glass-card animate-scale-in bg-incorrect-50 dark:bg-incorrect-900/20 border border-incorrect-200 dark:border-incorrect-800';
-                feedbackText.className = 'text-lg font-medium text-incorrect-700 dark:text-incorrect-300';
+                feedbackContainer.className = 'p-3 rounded-xl text-center glass-card animate-scale-in bg-incorrect-50 dark:bg-incorrect-900/20 border border-incorrect-200 dark:border-incorrect-800';
+                feedbackText.className = 'text-sm font-medium text-incorrect-700 dark:text-incorrect-300 mb-2';
                 feedbackText.textContent = `Oops! That was ${currentQuestion.language}.`;
                 continueBtn.classList.remove('bg-primary-500', 'hover:bg-primary-600');
                 continueBtn.classList.add('bg-incorrect-500', 'hover:bg-incorrect-600');
                 
-                // Highlight the correct and wrong options with animations
                 Array.from(optionsContainer.children).forEach(button => {
                     if (button.textContent === currentQuestion.language) {
                         button.classList.add('bg-correct-500', 'text-white', 'dark:bg-correct-600');
@@ -560,34 +642,82 @@
                 });
             }
             
-            // Disable all option buttons
             Array.from(optionsContainer.children).forEach(button => {
                 button.disabled = true;
                 button.classList.add('opacity-75');
             });
         }
         
-        // Start a new game
         function startNewGame() {
             currentStreak = 0;
             currentStreakElement.textContent = '0';
-            generateQuestion();
-        }
-        
-        // Continue to next question
-        function continueGame() {
-            // Reset continue button style
-            continueBtn.classList.remove('bg-correct-500', 'hover:bg-correct-600', 'bg-incorrect-500', 'hover:bg-incorrect-600');
-            continueBtn.classList.add('bg-primary-500', 'hover:bg-primary-600');
+            
+            // Stop any current speech
+            if (speechSynthesis) {
+                speechSynthesis.cancel();
+            }
             
             generateQuestion();
         }
         
-        // Event listeners
+        function continueGame() {
+            continueBtn.classList.remove('bg-correct-500', 'hover:bg-correct-600', 'bg-incorrect-500', 'hover:bg-incorrect-600');
+            continueBtn.classList.add('bg-primary-500', 'hover:bg-primary-600');
+            
+            // Stop any current speech
+            if (speechSynthesis) {
+                speechSynthesis.cancel();
+            }
+            
+            generateQuestion();
+        }
+        
+        function setupGameModeSwitching() {
+            textModeBtn.addEventListener('click', () => {
+                if (gameMode !== 'text') {
+                    gameMode = 'text';
+                    updateModeToggle();
+                    
+                    // Stop any current speech
+                    if (speechSynthesis) {
+                        speechSynthesis.cancel();
+                    }
+                    
+                    startNewGame();
+                }
+            });
+            
+            audioModeBtn.addEventListener('click', () => {
+                if (gameMode !== 'audio') {
+                    gameMode = 'audio';
+                    updateModeToggle();
+                    
+                    if (!speechAvailable) {
+                        audioNotice.textContent = 'Speech synthesis is not available in your browser. Using text mode instead.';
+                        audioNotice.classList.remove('hidden');
+                    }
+                    
+                    startNewGame();
+                }
+            });
+            
+            updateModeToggle();
+        }
+        
+        function setupAudioControls() {
+            playAudioBtn.addEventListener('click', () => {
+                if (currentQuestion && speechAvailable) {
+                    speakText(currentQuestion.sample, currentQuestion.langCode);
+                }
+            });
+        }
+        
+        // Initialize everything
+        initializeSpeech();
         continueBtn.addEventListener('click', continueGame);
         newGameBtn.addEventListener('click', startNewGame);
-        
-        // Initialize game
+        setupGameModeSwitching();
+        setupAudioControls();
         generateQuestion();
     </script>
 </body>
